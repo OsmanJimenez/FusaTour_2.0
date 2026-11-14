@@ -1,0 +1,19 @@
+{
+  "dataset": "FusaTour",
+  "version": 1,
+  "source": "FusaTour/sql/Fusaviajes.sql",
+  "generatedAt": "2026-11-14T16:16:05.574Z",
+  "paths": {
+    "categories": "data/fusatour/categories.json",
+    "tags": "data/fusatour/tags.json",
+    "destinations": "data/fusatour/destinations.json",
+    "assetStatus": "data/fusatour/asset-status.json"
+  },
+  "counts": {
+    "categories": 3,
+    "tags": 10,
+    "destinations": 19,
+    "galleryImages": 56,
+    "supplementaryPhotos": 3
+  }
+}

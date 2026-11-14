@@ -1,0 +1,20 @@
+{
+  "note": "Las fotos suplementarias se preservan en destinations.json, pero sus binarios no estaban incluidos en el repositorio Laravel de origen.",
+  "unavailableSupplementaryPhotos": [
+    {
+      "destinationId": 1,
+      "source": "/storage/hykBJ8zMKCjiWVYqviflEUVaTb0nQKP3KaLbA7un.jpeg",
+      "availableLocally": false
+    },
+    {
+      "destinationId": 2,
+      "source": "/storage/IPJxKcPLB3rU49zTAFqLNmbkqCjdWrvZy0dfvxJ1.jpeg",
+      "availableLocally": false
+    },
+    {
+      "destinationId": 3,
+      "source": "/storage/t8tuHMWt2PTGvhK5YupDu1MPuuf3qLa13vbbJ0bD.jpeg",
+      "availableLocally": false
+    }
+  ]
+}

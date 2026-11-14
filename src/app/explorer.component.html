@@ -1,0 +1,214 @@
+@if (catalogue()) {
+  <div class="app-shell" data-atr-surface="standard" [class.menu-is-open]="menuOpen()">
+    <header class="topbar">
+      <a class="brand" routerLink="/" aria-label="Ir al inicio de FusaTour">Fusa<span>Tour</span></a>
+      <atr-navigation-bar class="main-nav" label="Navegación principal">
+        <a atrNavigationItem routerLink="/" [active]="view() === 'home'">Inicio</a>
+        <a atrNavigationItem routerLink="/categorias" [active]="view() === 'categories'">Rutas</a>
+        <a atrNavigationItem routerLink="/ranking" [active]="view() === 'ranking'">Ranking</a>
+        <a atrNavigationItem routerLink="/actividades" [active]="view() === 'activities'">Actividades</a>
+      </atr-navigation-bar>
+      <div class="utility-nav">
+        <button atrIconButton appearance="standard" class="icon-button" type="button" (click)="toggleTheme()" [attr.aria-label]="theme() === 'dark' ? 'Activar modo claro' : 'Activar modo oscuro'" [title]="theme() === 'dark' ? 'Modo claro' : 'Modo oscuro'">
+          @if (theme() === 'dark') {
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36-6.36-1.42 1.42M7.05 16.95l-1.42 1.42m12.73 0-1.42-1.42M7.05 7.05 5.63 5.63M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" /></svg>
+          } @else {
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.64 15.7A8.5 8.5 0 0 1 8.3 3.36 8.5 8.5 0 1 0 20.64 15.7Z" /></svg>
+          }
+        </button>
+        <button class="menu-button" type="button" (click)="menuOpen.set(!menuOpen())" [attr.aria-expanded]="menuOpen()" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <nav class="mobile-menu" aria-label="Menú móvil">
+        <a routerLink="/" (click)="menuOpen.set(false)">Inicio</a>
+        <a routerLink="/categorias" (click)="menuOpen.set(false)">Rutas y categorías</a>
+        <a routerLink="/ranking" (click)="menuOpen.set(false)">Ranking de lugares</a>
+        <a routerLink="/actividades" (click)="menuOpen.set(false)">Actividades</a>
+        <a routerLink="/escaner" (click)="menuOpen.set(false)">Escanear QR</a>
+      </nav>
+    </header>
+
+    <main>
+      @if (view() === 'home') {
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <p class="route-mark">Fusagasugá · Colombia</p>
+            <h1 id="hero-title">Una ciudad para recorrer con los ojos abiertos.</h1>
+            <p class="hero-description">Historias, obras y paisajes que hacen de Fusagasugá una ruta propia.</p>
+            <div class="hero-actions">
+              <a atrButton appearance="filled" class="button primary" routerLink="/categorias">Explorar lugares <span aria-hidden="true">→</span></a>
+              <a atrButton appearance="outlined" class="button quiet" routerLink="/escaner">Escanear un código</a>
+            </div>
+            <div class="category-rail" aria-label="Categorías destacadas">
+              @for (category of categories; track category.id) {
+                <a [routerLink]="categoryLink(category)">
+                  <span>{{ category.name }}</span>
+                  <small>{{ categoryDestinationCount(category.id) }} lugares</small>
+                </a>
+              }
+            </div>
+          </div>
+          <div class="hero-image" role="img" aria-label="Paisaje de Fusagasugá" style="background-image: url('images/Fondo.webp')"></div>
+        </section>
+
+        <section class="story-strip" aria-label="Conoce Fusagasugá">
+          <button type="button" (click)="activeStory.set('data')"><img src="images/historias/Datos.webp" alt="" /><div><h2>Una ciudad jardín</h2><p>Fundada en 1592, entre montañas, flores y memoria.</p></div></button>
+          <button type="button" (click)="activeStory.set('events')"><img src="images/historias/Eventos.webp" alt="" /><div><h2>El calendario vive afuera</h2><p>Ferias, desfiles y celebraciones que ocupan sus calles.</p></div></button>
+          <button type="button" (click)="activeStory.set('symbols')"><img src="images/historias/Simbolos.webp" alt="" /><div><h2>Símbolos compartidos</h2><p>Los signos que acompañan a la ciudad y su memoria.</p></div></button>
+          <button type="button" (click)="activeStory.set('food')"><img src="images/historias/Comida.webp" alt="" /><div><h2>Sabores locales</h2><p>La ruta también se reconoce en sus cocinas y plazas.</p></div></button>
+          <button type="button" (click)="activeStory.set('weather')"><img src="images/historias/Clima.webp" alt="" /><div><h2>Clima para caminar</h2><p>Una ciudad de temperaturas y paisajes diversos.</p></div></button>
+        </section>
+      }
+
+      @if (view() === 'categories' && !currentCategory) {
+        <section class="page-heading route-heading">
+          <p class="route-mark">Elige una ruta</p>
+          <h1>Lugares para mirar con otro ritmo.</h1>
+          <p>Organizamos la guía por los tres territorios que atraviesan la ciudad.</p>
+        </section>
+        <atr-grid class="category-grid" columns="auto" minTrack="15rem" gap="md" aria-label="Categorías de lugares">
+          @for (category of categories; track category.id) {
+            <a atrGridItem class="category-panel" [routerLink]="categoryLink(category)" [style.--panel-image]="'url(' + imageUrl(category.image) + ')'">
+              <span>{{ category.name }}</span>
+              <strong>{{ categoryDestinationCount(category.id) }}</strong>
+              <small>lugares para descubrir</small>
+            </a>
+          }
+        </atr-grid>
+      }
+
+      @if (view() === 'activities' && !currentTag) {
+        <section class="page-heading activity-heading">
+          <p class="route-mark">Hoy quiero</p>
+          <h1>Elegir una manera de estar en la ciudad.</h1>
+          <p>Filtra la guía por lo que te gustaría hacer, mirar o aprender.</p>
+        </section>
+        <section class="activity-index" aria-label="Actividades disponibles">
+          @for (tag of tags; track tag.id) {
+            <a [routerLink]="tagLink(tag)">
+              <img [src]="imageUrl(tag.image)" [alt]="tag.name" />
+              <span>{{ tag.name }}</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+            </a>
+          }
+        </section>
+      }
+
+      @if (view() === 'scanner') {
+        <section class="scanner-page">
+          <atr-card appearance="elevated" class="scanner-copy">
+            <p class="route-mark">En la calle</p>
+            <h1>Abre un lugar desde su código.</h1>
+            <p>Encuentra un QR de FusaTour y apunta la cámara. Si corresponde a un sitio de esta guía, abriremos su ficha.</p>
+            @if (!scanning()) {
+              <button atrButton appearance="filled" class="button primary" type="button" (click)="startScanner()">Activar cámara</button>
+            } @else {
+              <button atrButton appearance="outlined" class="button quiet" type="button" (click)="stopScanner()">Detener cámara</button>
+            }
+            <p class="scanner-status" aria-live="polite">{{ scannerMessage() }}</p>
+          </atr-card>
+          <div class="scanner-stage">
+            <video #scannerVideo autoplay muted playsinline></video>
+            <div class="scanner-frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          </div>
+        </section>
+      }
+
+      @if (view() === 'detail' && currentDestination; as destination) {
+        <article class="detail-page">
+          <section class="detail-hero" [style.--detail-image]="'url(' + imageUrl(destination.coverImage) + ')'">
+            <a class="back-link" routerLink="/categorias">← Volver a rutas</a>
+            <div class="detail-hero-info">
+              @if (categoryFor(destination.categoryId); as category) { <a class="route-mark" [routerLink]="categoryLink(category)">{{ categoryName(destination.categoryId) }}</a> }
+              <h1>{{ destination.title }}</h1>
+              <p>{{ destination.summary }}</p>
+            </div>
+            <div class="detail-actions">
+              <button class="round-action" type="button" (click)="share(destination)" aria-label="Compartir lugar">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="19" r="2"/><path d="m8 11 8-5m-8 7 8 5"/></svg>
+              </button>
+            </div>
+          </section>
+
+          <section class="detail-layout">
+            <aside class="detail-aside">
+              <div class="rating-box"><span>{{ destination.rating | number: '1.1-1' }}</span><small>de 5</small><strong>★</strong></div>
+              <div><span>Publicación</span><strong>{{ destination.publishedAt | date: 'd MMM y' }}</strong></div>
+              @if (destination.artist) { <div><span>Autor / artista</span><strong>{{ destination.artist }}</strong></div> }
+              <div class="reader-controls"><span>Tamaño de lectura</span><div><button type="button" (click)="adjustFont(-0.1)">A−</button><button type="button" (click)="fontScale.set(1); adjustFont(0)">A</button><button type="button" (click)="adjustFont(0.1)">A+</button></div></div>
+            </aside>
+            <div class="detail-content">
+              <div class="tag-row" aria-label="Actividades relacionadas">
+                @for (tag of destinationTags(destination); track tag.id) { <a [routerLink]="tagLink(tag)"><atr-chip kind="assist" [label]="tag.name"></atr-chip></a> }
+              </div>
+              <div class="prose" [innerHTML]="destination.bodyHtml"></div>
+              @if (destination.additionalContent) { <blockquote>{{ destination.additionalContent }}</blockquote> }
+            </div>
+          </section>
+
+          @if (destinationImages(destination).length) {
+            <section class="gallery-section" aria-labelledby="gallery-title">
+              <div class="section-heading"><h2 id="gallery-title">Recorrido visual</h2><p>Abre una imagen para verla en detalle.</p></div>
+              <div class="gallery-grid">
+                @for (image of destinationImages(destination); track image; let index = $index) {
+                  <button type="button" (click)="openImage(image)" [class.featured]="index === 0"><img [src]="imageUrl(image)" [alt]="destination.title + ', imagen ' + (index + 1)" /></button>
+                }
+              </div>
+            </section>
+          }
+
+          @if (safeMap(destination.mapEmbedUrl); as mapUrl) {
+            <section class="map-section" aria-labelledby="map-title"><div class="section-heading"><h2 id="map-title">Ubicación</h2><p>Consulta el punto de partida antes de salir.</p></div><iframe [src]="mapUrl" title="Ubicación de {{ destination.title }}" loading="lazy" allowfullscreen></iframe></section>
+          }
+
+        </article>
+      }
+
+      @if (view() === 'home' || view() === 'ranking' || (view() === 'categories' && currentCategory) || (view() === 'activities' && currentTag)) {
+        <section class="catalogue-section">
+          <div class="catalogue-title">
+            @if (view() === 'home') { <div><p class="route-mark">Paradas recientes</p><h2>Lugares para empezar.</h2></div> }
+            @if (view() === 'ranking') { <div><p class="route-mark">Ordenados por valoración</p><h1>Los lugares más recordados.</h1></div> }
+            @if (view() === 'categories' && currentCategory) { <div><a class="back-link inline" routerLink="/categorias">← Todas las rutas</a><p class="route-mark">Ruta de {{ currentCategory.name }}</p><h1>{{ currentCategory.name }}</h1></div> }
+            @if (view() === 'activities' && currentTag) { <div><a class="back-link inline" routerLink="/actividades">← Todas las actividades</a><p class="route-mark">Lugares para {{ currentTag.name.toLocaleLowerCase('es-CO') }}</p><h1>{{ currentTag.name }}</h1></div> }
+            <label class="search-box"><span class="sr-only">Buscar lugares</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/></svg><input [value]="search()" (input)="search.set($any($event.target).value)" placeholder="Buscar en la guía" /></label>
+          </div>
+          @if (displayedDestinations.length) {
+            <div class="destination-list">
+              @for (destination of displayedDestinations; track destination.id; let index = $index) {
+                <article class="destination-entry" [class.reverse]="index % 2 === 1">
+                  <a class="destination-photo" [routerLink]="destinationLink(destination)"><img [src]="imageUrl(destination.coverImage)" [alt]="destination.title" /></a>
+                  <div class="destination-copy">
+                    @if (categoryFor(destination.categoryId); as category) { <a class="route-mark" [routerLink]="categoryLink(category)">{{ categoryName(destination.categoryId) }}</a> }
+                    <h2><a [routerLink]="destinationLink(destination)">{{ destination.title }}</a></h2><p>{{ destination.summary }}</p><div class="destination-meta"><span>{{ destination.rating | number: '1.1-1' }} ★</span><span>{{ tagNames(destination) }}</span></div><a class="text-link" [routerLink]="destinationLink(destination)">Abrir ficha <span aria-hidden="true">→</span></a>
+                  </div>
+                </article>
+              }
+            </div>
+          } @else { <p class="empty-state">No encontramos lugares con esa búsqueda. Prueba otra palabra.</p> }
+        </section>
+      }
+    </main>
+
+    <footer class="bottom-nav" aria-label="Accesos rápidos">
+      <a routerLink="/" [class.active]="view() === 'home'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3V10Z"/></svg><span>Inicio</span></a>
+      <a routerLink="/categorias" [class.active]="view() === 'categories'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 10h16M10 5v14"/></svg><span>Rutas</span></a>
+      <a routerLink="/ranking" [class.active]="view() === 'ranking'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.6 5.3 5.9.9-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.2 5.9-.9L12 3Z"/></svg><span>Ranking</span></a>
+      <a routerLink="/actividades" [class.active]="view() === 'activities'"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4v8l5 3"/></svg><span>Hacer</span></a>
+      <a routerLink="/escaner" [class.active]="view() === 'scanner'"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4M15 4h4M5 20h4M15 20h4M7 8h10v8H7z"/></svg><span>Escanear</span></a>
+    </footer>
+
+    @if (activeImage(); as image) {
+      <div class="image-dialog" role="dialog" aria-modal="true" aria-label="Imagen ampliada" (click)="activeImage.set(null)"><button type="button" aria-label="Cerrar imagen" (click)="activeImage.set(null)">×</button><img [src]="imageUrl(image)" alt="Imagen ampliada de FusaTour" (click)="$event.stopPropagation()" /></div>
+    }
+    @if (activeStory(); as storyKey) {
+      <div class="story-dialog" role="dialog" aria-modal="true" [attr.aria-label]="story(storyKey).title" (click)="activeStory.set(null)">
+        <article (click)="$event.stopPropagation()"><button type="button" aria-label="Cerrar" (click)="activeStory.set(null)">×</button><img [src]="imageUrl(story(storyKey).image)" [alt]="story(storyKey).title" /><div><p class="route-mark">Conoce Fusagasugá</p><h2>{{ story(storyKey).title }}</h2><p>{{ story(storyKey).text }}</p></div></article>
+      </div>
+    }
+    @if (toast()) { <div class="toast" role="status">{{ toast() }}</div> }
+  </div>
+} @else {
+  <div class="loading-screen"><div class="loading-mark">FusaTour</div><p>Cargando la guía local…</p></div>
+}

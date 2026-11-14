@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "Arte",
+    "image": "1592692339Icon_Arte.webp",
+    "createdAt": "2020-05-02 19:47:50",
+    "updatedAt": "2020-06-20 22:32:19"
+  },
+  {
+    "id": 2,
+    "name": "Avistamiento de Aves",
+    "image": "1592692368Icon_Avistamiento.webp",
+    "createdAt": "2020-05-02 19:47:50",
+    "updatedAt": "2020-06-20 22:32:48"
+  },
+  {
+    "id": 3,
+    "name": "Caminata",
+    "image": "1592692388Icon_Caminar.webp",
+    "createdAt": "2020-05-02 19:47:50",
+    "updatedAt": "2020-06-20 22:33:08"
+  },
+  {
+    "id": 4,
+    "name": "Ciclopaseo",
+    "image": "1592692408Icon_CicloPaseo.webp",
+    "createdAt": "2020-05-02 19:47:50",
+    "updatedAt": "2020-06-20 22:33:28"
+  },
+  {
+    "id": 5,
+    "name": "Educación Ambiental",
+    "image": "1592692435Icon_Educacion.webp",
+    "createdAt": "2020-06-20 22:33:44",
+    "updatedAt": "2020-06-20 22:33:55"
+  },
+  {
+    "id": 6,
+    "name": "Escalada",
+    "image": "1592692456Icon_Escalada.webp",
+    "createdAt": "2020-06-20 22:34:06",
+    "updatedAt": "2020-06-20 22:34:16"
+  },
+  {
+    "id": 7,
+    "name": "Fauna",
+    "image": "1592692475Icon_Fauna.webp",
+    "createdAt": "2020-06-20 22:34:27",
+    "updatedAt": "2020-06-20 22:34:35"
+  },
+  {
+    "id": 8,
+    "name": "Flora",
+    "image": "1592692495Icon_Flora.webp",
+    "createdAt": "2020-06-20 22:34:44",
+    "updatedAt": "2020-06-20 22:34:55"
+  },
+  {
+    "id": 9,
+    "name": "Fotografia",
+    "image": "1592692516Icon_Fotografia.webp",
+    "createdAt": "2020-06-20 22:35:07",
+    "updatedAt": "2020-06-20 22:35:16"
+  },
+  {
+    "id": 10,
+    "name": "Senderismo",
+    "image": "1592692533Icon_Senderismo.webp",
+    "createdAt": "2020-06-20 22:35:25",
+    "updatedAt": "2020-06-20 22:35:33"
+  }
+]

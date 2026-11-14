@@ -1,0 +1,11 @@
+@import "@osmanjimenez/atralume/styles/theme.css";
+
+:root { color-scheme: light; }
+:root.dark { color-scheme: dark; }
+html { min-height: 100%; scroll-behavior: smooth; }
+body { min-width: 320px; min-height: 100dvh; margin: 0; }
+::selection { background: #e4b243; color: #17322b; }
+* { scrollbar-width: thin; scrollbar-color: #bc4e33 #e4ddc8; }
+*::-webkit-scrollbar { width: 11px; }
+*::-webkit-scrollbar-track { background: #e4ddc8; }
+*::-webkit-scrollbar-thumb { background: #bc4e33; border: 3px solid #e4ddc8; border-radius: 999px; }

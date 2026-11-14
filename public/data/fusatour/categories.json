@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "EcoTurismo",
+    "image": "1592768010Ecoturismo.webp",
+    "createdAt": "2020-05-02 19:47:50",
+    "updatedAt": "2020-06-21 19:33:30"
+  },
+  {
+    "id": 2,
+    "name": "Monumentos",
+    "image": "1592768030Monumentos.webp",
+    "createdAt": "2020-05-02 19:47:50",
+    "updatedAt": "2020-06-21 19:33:50"
+  },
+  {
+    "id": 3,
+    "name": "Murales",
+    "image": "1592766915Murales.webp",
+    "createdAt": "2020-06-12 14:53:13",
+    "updatedAt": "2020-06-21 19:15:15"
+  }
+]
