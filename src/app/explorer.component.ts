@@ -1,16 +1,24 @@
 import { CommonModule, DOCUMENT, DatePipe, isPlatformBrowser } from '@angular/common';
-import { Component, ElementRef, OnDestroy, PLATFORM_ID, ViewChild, inject, signal } from '@angular/core';
+import { Component, ElementRef, OnDestroy, PLATFORM_ID, TemplateRef, ViewChild, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Meta, Title } from '@angular/platform-browser';
 import { filter } from 'rxjs';
 import { AtralumeButton } from '@osmanjimenez/atralume/button';
+import { AtralumeBadge } from '@osmanjimenez/atralume/badge';
 import { AtralumeCard } from '@osmanjimenez/atralume/card';
 import { AtralumeChip } from '@osmanjimenez/atralume/chip';
+import { AtralumeDialog, AtralumeDialogClose, AtralumeDialogContent, AtralumeDialogTitle } from '@osmanjimenez/atralume/dialog';
+import { AtralumeEmptyState } from '@osmanjimenez/atralume/empty-state';
+import { AtralumeSearchField } from '@osmanjimenez/atralume/form-field';
 import { AtralumeGrid, AtralumeGridItem } from '@osmanjimenez/atralume/grid';
 import { AtralumeIconButton } from '@osmanjimenez/atralume/icon-button';
+import { AtralumeImageGallery } from '@osmanjimenez/atralume/image-gallery';
+import { AtralumeImage360 } from '@osmanjimenez/atralume/image-360';
+import { AtralumeLink } from '@osmanjimenez/atralume/link';
 import { AtralumeNavigationBar, AtralumeNavigationItem } from '@osmanjimenez/atralume/navigation-bar';
-import { Catalogue, Category, Destination, Tag, TourDataService } from './tour-data.service';
+import { AtralumeSnackbar } from '@osmanjimenez/atralume/snackbar';
+import { Catalogue, Category, Destination, ImmersiveTour, Tag, TourDataService } from './tour-data.service';
 
 type View = 'home' | 'categories' | 'ranking' | 'activities' | 'detail' | 'scanner';
 type StoryKey = 'data' | 'events' | 'symbols' | 'food' | 'weather';
@@ -19,7 +27,10 @@ type StoryKey = 'data' | 'events' | 'symbols' | 'food' | 'weather';
   selector: 'app-explorer',
   imports: [
     CommonModule, DatePipe, RouterLink,
-    AtralumeButton, AtralumeCard, AtralumeChip, AtralumeGrid, AtralumeGridItem,
+    AtralumeButton, AtralumeBadge,
+    AtralumeCard, AtralumeChip, AtralumeDialogClose, AtralumeDialogContent, AtralumeDialogTitle,
+    AtralumeEmptyState, AtralumeSearchField,
+    AtralumeGrid, AtralumeGridItem, AtralumeImage360, AtralumeImageGallery, AtralumeLink,
     AtralumeIconButton, AtralumeNavigationBar, AtralumeNavigationItem,
   ],
   templateUrl: './explorer.component.html',
@@ -33,9 +44,12 @@ export class ExplorerComponent implements OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
+  private readonly snackbar = inject(AtralumeSnackbar);
+  private readonly dialog = inject(AtralumeDialog);
   private readonly browser = isPlatformBrowser(this.platformId);
 
   @ViewChild('scannerVideo') scannerVideo?: ElementRef<HTMLVideoElement>;
+  @ViewChild('storyDialog') storyDialog?: TemplateRef<unknown>;
 
   readonly catalogue = signal<Catalogue | null>(null);
   readonly view = signal<View>('home');
@@ -46,9 +60,8 @@ export class ExplorerComponent implements OnDestroy {
   readonly menuOpen = signal(false);
   readonly theme = signal<'light' | 'dark'>(this.readStorage('fusatour-theme', 'light') as 'light' | 'dark');
   readonly fontScale = signal(Number(this.readStorage('fusatour-font-scale', '1')));
-  readonly activeImage = signal<string | null>(null);
   readonly activeStory = signal<StoryKey | null>(null);
-  readonly toast = signal('');
+  readonly selectedImmersiveTour = signal<string | null>(null);
   readonly scanning = signal(false);
   readonly scannerMessage = signal('Activa la cámara para leer un código QR de FusaTour.');
 
@@ -95,6 +108,14 @@ export class ExplorerComponent implements OnDestroy {
 
   get currentDestination(): Destination | undefined {
     return this.destinations.find((destination) => destination.slug === this.selectedDestinationSlug());
+  }
+
+  get immersiveTours(): ImmersiveTour[] {
+    return this.catalogue()?.immersiveTours ?? [];
+  }
+
+  get currentImmersiveTour(): ImmersiveTour | undefined {
+    return this.immersiveTours.find((tour) => tour.id === this.selectedImmersiveTour()) ?? this.immersiveTours[0];
   }
 
   get currentCategory(): Category | undefined {
@@ -149,6 +170,19 @@ export class ExplorerComponent implements OnDestroy {
     return Array.from(new Set([destination.coverImage, ...destination.gallery.map((image) => image.fileName)].filter((image): image is string => Boolean(image))));
   }
 
+  galleryImages(destination: Destination) {
+    return this.destinationImages(destination).map((fileName, index) => ({
+      id: `${destination.id}-${index}`,
+      src: this.imageUrl(fileName),
+      alt: `${destination.title}, imagen ${index + 1}`,
+      title: destination.title,
+    }));
+  }
+
+  selectImmersiveTour(tour: ImmersiveTour): void {
+    this.selectedImmersiveTour.set(tour.id);
+  }
+
   imageUrl(image: string | null): string {
     return image ? `/images/${encodeURIComponent(image)}` : '/images/Fondo.webp';
   }
@@ -176,6 +210,13 @@ export class ExplorerComponent implements OnDestroy {
     return stories[key];
   }
 
+  openStory(key: StoryKey): void {
+    this.activeStory.set(key);
+    if (!this.storyDialog) return;
+    this.dialog.open(this.storyDialog, { label: this.story(key).title, autoFocus: 'first-tabbable' })
+      .afterClosed.subscribe(() => this.activeStory.set(null));
+  }
+
   toggleTheme(): void {
     this.theme.set(this.theme() === 'dark' ? 'light' : 'dark');
     this.writeStorage('fusatour-theme', this.theme());
@@ -187,10 +228,6 @@ export class ExplorerComponent implements OnDestroy {
     this.fontScale.set(next);
     this.writeStorage('fusatour-font-scale', String(next));
     this.applyFontScale();
-  }
-
-  openImage(image: string): void {
-    this.activeImage.set(image);
   }
 
   share(destination: Destination): void {
@@ -299,8 +336,8 @@ export class ExplorerComponent implements OnDestroy {
   }
 
   private showToast(message: string): void {
-    this.toast.set(message);
-    window.setTimeout(() => this.toast.set(''), 2600);
+    if (!this.browser) return;
+    this.snackbar.open({ message, tone: 'info', duration: 2600, position: 'bottom', policy: 'replace' });
   }
 
   private applyTheme(): void {

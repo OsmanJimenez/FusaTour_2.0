@@ -34,10 +34,19 @@ export interface Destination {
   scene: string | null;
 }
 
+export interface ImmersiveTour {
+  id: string;
+  title: string;
+  description: string;
+  fileName: string;
+  alt: string;
+}
+
 export interface Catalogue {
   categories: Category[];
   tags: Tag[];
   destinations: Destination[];
+  immersiveTours: ImmersiveTour[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -48,5 +57,6 @@ export class TourDataService {
     categories: this.http.get<Category[]>('data/fusatour/categories.json'),
     tags: this.http.get<Tag[]>('data/fusatour/tags.json'),
     destinations: this.http.get<Destination[]>('data/fusatour/destinations.json'),
+    immersiveTours: this.http.get<ImmersiveTour[]>('data/fusatour/immersive-tours.json'),
   }).pipe(shareReplay({ bufferSize: 1, refCount: true }));
 }

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "plaza-principal",
+    "title": "Plaza principal de Fusagasugá",
+    "description": "Una vuelta completa por el corazón cívico de la ciudad.",
+    "fileName": "1596813683Plaza_360.jpg",
+    "alt": "Vista panorámica de 360 grados de la plaza principal de Fusagasugá"
+  },
+  {
+    "id": "cultura-uno",
+    "title": "Vista cultural I",
+    "description": "Una mirada inmersiva a la arquitectura y vida urbana de la ciudad.",
+    "fileName": "1596818003Cultura_360.jpg",
+    "alt": "Vista panorámica de 360 grados de un espacio cultural de Fusagasugá"
+  },
+  {
+    "id": "cultura-dos",
+    "title": "Vista cultural II",
+    "description": "Otra perspectiva de la memoria urbana local.",
+    "fileName": "1596818032Cultura_360.jpg",
+    "alt": "Vista panorámica de 360 grados de un espacio cultural de Fusagasugá"
+  },
+  {
+    "id": "cultura-tres",
+    "title": "Vista cultural III",
+    "description": "Una escena inmersiva para recorrer la ciudad desde donde estés.",
+    "fileName": "1597154617Cultura_360.jpg",
+    "alt": "Vista panorámica de 360 grados de un espacio cultural de Fusagasugá"
+  }
+]

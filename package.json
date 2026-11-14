@@ -19,7 +19,7 @@
     "@angular/platform-server": "^22.2.6",
     "@angular/router": "^22.2.0",
     "@angular/ssr": "^22.2.7",
-    "@osmanjimenez/atralume": "^0.2.0",
+    "@osmanjimenez/atralume": "^0.2.2",
     "@taiga-ui/addon-table": "^5.32.0",
     "@taiga-ui/cdk": "^5.32.0",
     "@taiga-ui/core": "^5.32.0",
