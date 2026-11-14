@@ -34,8 +34,8 @@
         <section class="hero" aria-labelledby="hero-title">
           <div class="hero-copy">
             <p class="route-mark">Fusagasugá · Colombia</p>
-            <h1 id="hero-title">Una ciudad para recorrer con los ojos abiertos.</h1>
-            <p class="hero-description">Historias, obras y paisajes que hacen de Fusagasugá una ruta propia.</p>
+            <h1 id="hero-title">Lugares turísticos, parques y planes para descubrir Fusagasugá.</h1>
+            <p class="hero-description">Explora la ciudad jardín de Colombia: senderos, naturaleza, monumentos, murales y rincones para recorrer Fusagasugá a tu ritmo.</p>
             <div class="hero-actions">
               <a atrButton appearance="filled" class="button primary" routerLink="/categorias">Explorar lugares <span aria-hidden="true">→</span></a>
               <a atrButton appearance="outlined" class="button quiet" routerLink="/escaner">Escanear un código</a>
@@ -49,15 +49,15 @@
               }
             </div>
           </div>
-          <div class="hero-image" role="img" aria-label="Paisaje de Fusagasugá" style="background-image: url('images/Fondo.webp')"></div>
+          <div class="hero-image" role="img" aria-label="Paisaje de Fusagasugá" style="background-image: url('/images/Fondo.webp')"></div>
         </section>
 
         <section class="story-strip" aria-label="Conoce Fusagasugá">
-          <button type="button" (click)="activeStory.set('data')"><img src="images/historias/Datos.webp" alt="" /><div><h2>Una ciudad jardín</h2><p>Fundada en 1592, entre montañas, flores y memoria.</p></div></button>
-          <button type="button" (click)="activeStory.set('events')"><img src="images/historias/Eventos.webp" alt="" /><div><h2>El calendario vive afuera</h2><p>Ferias, desfiles y celebraciones que ocupan sus calles.</p></div></button>
-          <button type="button" (click)="activeStory.set('symbols')"><img src="images/historias/Simbolos.webp" alt="" /><div><h2>Símbolos compartidos</h2><p>Los signos que acompañan a la ciudad y su memoria.</p></div></button>
-          <button type="button" (click)="activeStory.set('food')"><img src="images/historias/Comida.webp" alt="" /><div><h2>Sabores locales</h2><p>La ruta también se reconoce en sus cocinas y plazas.</p></div></button>
-          <button type="button" (click)="activeStory.set('weather')"><img src="images/historias/Clima.webp" alt="" /><div><h2>Clima para caminar</h2><p>Una ciudad de temperaturas y paisajes diversos.</p></div></button>
+          <button type="button" (click)="activeStory.set('data')"><img src="/images/historias/Datos.webp" alt="" /><div><h2>Una ciudad jardín</h2><p>Fundada en 1592, entre montañas, flores y memoria.</p></div></button>
+          <button type="button" (click)="activeStory.set('events')"><img src="/images/historias/Eventos.webp" alt="" /><div><h2>El calendario vive afuera</h2><p>Ferias, desfiles y celebraciones que ocupan sus calles.</p></div></button>
+          <button type="button" (click)="activeStory.set('symbols')"><img src="/images/historias/Simbolos.webp" alt="" /><div><h2>Símbolos compartidos</h2><p>Los signos que acompañan a la ciudad y su memoria.</p></div></button>
+          <button type="button" (click)="activeStory.set('food')"><img src="/images/historias/Comida.webp" alt="" /><div><h2>Sabores locales</h2><p>La ruta también se reconoce en sus cocinas y plazas.</p></div></button>
+          <button type="button" (click)="activeStory.set('weather')"><img src="/images/historias/Clima.webp" alt="" /><div><h2>Clima para caminar</h2><p>Una ciudad de temperaturas y paisajes diversos.</p></div></button>
         </section>
       }
 

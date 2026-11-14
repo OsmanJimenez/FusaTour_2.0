@@ -1,7 +1,8 @@
-import { CommonModule, DatePipe } from '@angular/common';
-import { Component, ElementRef, OnDestroy, ViewChild, inject, signal } from '@angular/core';
+import { CommonModule, DOCUMENT, DatePipe, isPlatformBrowser } from '@angular/common';
+import { Component, ElementRef, OnDestroy, PLATFORM_ID, ViewChild, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { filter } from 'rxjs';
 import { AtralumeButton } from '@osmanjimenez/atralume/button';
 import { AtralumeCard } from '@osmanjimenez/atralume/card';
@@ -28,6 +29,11 @@ export class ExplorerComponent implements OnDestroy {
   private readonly router = inject(Router);
   private readonly data = inject(TourDataService);
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly document = inject(DOCUMENT);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly title = inject(Title);
+  private readonly meta = inject(Meta);
+  private readonly browser = isPlatformBrowser(this.platformId);
 
   @ViewChild('scannerVideo') scannerVideo?: ElementRef<HTMLVideoElement>;
 
@@ -50,12 +56,15 @@ export class ExplorerComponent implements OnDestroy {
   private scannerFrame?: number;
 
   constructor() {
-    this.applyTheme();
-    this.applyFontScale();
+    if (this.browser) {
+      this.applyTheme();
+      this.applyFontScale();
+    }
     this.data.catalogue.subscribe({
       next: (catalogue) => {
         this.catalogue.set(catalogue);
         this.syncRoute();
+        this.updateSeo();
       },
       error: () => this.showToast('No fue posible cargar la guía local.'),
     });
@@ -63,7 +72,8 @@ export class ExplorerComponent implements OnDestroy {
       this.menuOpen.set(false);
       this.search.set('');
       this.syncRoute();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      this.updateSeo();
+      if (this.browser) window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
@@ -140,7 +150,7 @@ export class ExplorerComponent implements OnDestroy {
   }
 
   imageUrl(image: string | null): string {
-    return image ? `images/${encodeURIComponent(image)}` : 'images/Fondo.webp';
+    return image ? `/images/${encodeURIComponent(image)}` : '/images/Fondo.webp';
   }
 
   categoryLink(category: Category): string[] {
@@ -197,6 +207,7 @@ export class ExplorerComponent implements OnDestroy {
   }
 
   startScanner(): void {
+    if (!this.browser) return;
     if (!navigator.mediaDevices?.getUserMedia) {
       this.scannerMessage.set('Este navegador no permite abrir la cámara.');
       return;
@@ -293,12 +304,94 @@ export class ExplorerComponent implements OnDestroy {
   }
 
   private applyTheme(): void {
+    if (!this.browser) return;
     document.documentElement.classList.toggle('dark', this.theme() === 'dark');
     document.documentElement.dataset['atrTheme'] = this.theme();
   }
 
   private applyFontScale(): void {
+    if (!this.browser) return;
     document.documentElement.style.setProperty('--reading-scale', String(this.fontScale()));
+  }
+
+  private updateSeo(): void {
+    const destination = this.currentDestination;
+    const category = this.currentCategory;
+    const tag = this.currentTag;
+    const path = this.router.url.split('?')[0] || '/';
+    const canonicalPath = path === '/descubrir' ? '/ranking' : path;
+    const url = `https://fusatour.osmanjimenez.dev${canonicalPath}`;
+    const seo = destination
+      ? {
+        title: `${destination.title} en Fusagasugá | FusaTour`,
+        description: `${destination.summary} Conoce este lugar turístico de Fusagasugá, Cundinamarca.`,
+      }
+      : category
+        ? {
+          title: `${category.name} en Fusagasugá: lugares para visitar | FusaTour`,
+          description: `Descubre lugares de ${category.name.toLocaleLowerCase('es-CO')} en Fusagasugá: planes, rutas y sitios turísticos para recorrer la ciudad jardín.`,
+        }
+        : tag
+          ? {
+            title: `${tag.name} en Fusagasugá: planes y lugares | FusaTour`,
+            description: `Encuentra planes de ${tag.name.toLocaleLowerCase('es-CO')} en Fusagasugá y descubre lugares turísticos para visitar en la ciudad jardín.`,
+          }
+          : canonicalPath === '/categorias'
+            ? {
+              title: 'Lugares turísticos de Fusagasugá | FusaTour',
+              description: 'Encuentra lugares turísticos de Fusagasugá: parques, naturaleza, monumentos, murales y rutas para conocer la ciudad jardín.',
+            }
+            : canonicalPath === '/actividades'
+              ? {
+                title: 'Qué hacer en Fusagasugá: actividades y planes | FusaTour',
+                description: 'Busca planes y actividades en Fusagasugá: senderismo, caminatas, ciclopaseos, fotografía, naturaleza y cultura local.',
+              }
+              : canonicalPath === '/ranking'
+                ? {
+                  title: 'Qué visitar en Fusagasugá: lugares recomendados | FusaTour',
+                  description: 'Una selección de lugares turísticos recomendados para visitar en Fusagasugá, Cundinamarca.',
+                }
+                : {
+                  title: 'Fusagasugá: lugares turísticos, parques y planes | FusaTour',
+                  description: 'Descubre qué hacer en Fusagasugá: lugares turísticos, parques, senderos, monumentos, murales y planes para recorrer la ciudad jardín de Colombia.',
+                };
+    const { title, description } = seo;
+    const image = destination?.coverImage
+      ? `https://fusatour.osmanjimenez.dev/images/${encodeURIComponent(destination.coverImage)}`
+      : 'https://fusatour.osmanjimenez.dev/images/Fondo.jpg';
+
+    this.title.setTitle(title);
+    this.meta.updateTag({ name: 'description', content: description });
+    this.meta.updateTag({ property: 'og:title', content: title });
+    this.meta.updateTag({ property: 'og:description', content: description });
+    this.meta.updateTag({ property: 'og:url', content: url });
+    this.meta.updateTag({ property: 'og:image', content: image });
+    this.meta.updateTag({ name: 'twitter:title', content: title });
+    this.meta.updateTag({ name: 'twitter:description', content: description });
+    this.meta.updateTag({ name: 'twitter:image', content: image });
+
+    const canonical = this.document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    canonical?.setAttribute('href', url);
+    this.document.querySelectorAll('link[hreflang]').forEach((link) => link.setAttribute('href', url));
+    this.setStructuredData(destination, url, description, image);
+  }
+
+  private setStructuredData(destination: Destination | undefined, url: string, description: string, image: string): void {
+    const id = 'fusatour-structured-data';
+    let script = this.document.getElementById(id) as HTMLScriptElement | null;
+    if (!script) {
+      script = this.document.createElement('script');
+      script.id = id;
+      script.type = 'application/ld+json';
+      this.document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(destination ? {
+      '@context': 'https://schema.org', '@type': 'TouristAttraction', name: destination.title,
+      description, image, url, address: { '@type': 'PostalAddress', addressLocality: 'Fusagasugá', addressCountry: 'CO' },
+    } : {
+      '@context': 'https://schema.org', '@type': 'WebSite', name: 'FusaTour', url,
+      inLanguage: 'es-CO', description,
+    });
   }
 
   private readStorage(key: string, fallback: string): string {
