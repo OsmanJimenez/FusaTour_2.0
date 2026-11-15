@@ -1,0 +1,22 @@
+export const shellCopies = {
+  brand: 'Fusa',
+  brandAccent: 'Tour',
+  brandAria: 'Ir al inicio de FusaTour',
+  navLabel: 'Navegación principal',
+  bottomNavLabel: 'Accesos rápidos',
+  nav: {
+    home: 'Inicio',
+    categories: 'Rutas',
+    ranking: 'Ranking',
+    activities: 'Actividades',
+  },
+  themeLight: 'Activar modo claro',
+  themeDark: 'Activar modo oscuro',
+  themeLightTitle: 'Modo claro',
+  themeDarkTitle: 'Modo oscuro',
+  loadingMark: 'FusaTour',
+  loadingText: 'Cargando la guía local…',
+  loadError: 'No fue posible cargar la guía local.',
+  storiesMark: 'Conoce Fusagasugá',
+  closeStory: 'Cerrar',
+} as const;

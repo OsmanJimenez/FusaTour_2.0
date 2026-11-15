@@ -1,0 +1,9 @@
+@if (catalogue(); as data) {
+  <app-destination-catalogue
+    [destinations]="data.destinations"
+    [sortByRating]="true"
+    [mark]="copies.mark"
+    [title]="copies.title"
+    titleLevel="h1"
+  />
+}

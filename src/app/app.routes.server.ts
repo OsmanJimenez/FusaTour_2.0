@@ -46,6 +46,5 @@ export const serverRoutes: ServerRoute[] = [
       return destinationSlugs.map((slug) => ({ slug }));
     },
   },
-  staticRoute('escaner'),
   { path: '**', renderMode: RenderMode.Client },
 ];

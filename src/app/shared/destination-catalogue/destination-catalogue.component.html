@@ -1,0 +1,57 @@
+<section class="catalogue-section">
+  <div class="catalogue-title">
+    <div>
+      @if (backLink(); as link) {
+        <a class="back-link inline" [routerLink]="link">{{ backLabel() }}</a>
+      }
+      @if (mark()) {
+        <p class="route-mark">{{ mark() }}</p>
+      }
+      @if (titleLevel() === 'h1') {
+        <h1>{{ title() }}</h1>
+      } @else {
+        <h2>{{ title() }}</h2>
+      }
+    </div>
+    <label class="search-box">
+      <span class="search-box-label">{{ copies.searchLabel }}</span>
+      <input
+        type="search"
+        [placeholder]="copies.searchPlaceholder"
+        [value]="search()"
+        [attr.aria-label]="copies.searchLabel"
+        (input)="search.set($any($event.target).value)"
+      />
+    </label>
+  </div>
+
+  @if (displayed().length) {
+    <div class="destination-list">
+      @for (destination of displayed(); track destination.id; let index = $index) {
+        <article class="destination-entry" [class.reverse]="index % 2 === 1">
+          <a class="destination-photo" [routerLink]="destinationLink(destination)">
+            <img [src]="imageUrl(destination.coverImage)" [alt]="destination.title" />
+          </a>
+          <div class="destination-copy">
+            @if (categoryRef(destination); as category) {
+              <a class="route-mark" [routerLink]="categoryLink(category)">{{ categoryLabel(destination) }}</a>
+            }
+            <h2>
+              <a [routerLink]="destinationLink(destination)">{{ destination.title }}</a>
+            </h2>
+            <p>{{ destination.summary }}</p>
+            <div class="destination-meta">
+              <span>{{ destination.rating | number: '1.1-1' }} ★</span>
+              <span>{{ tagsLabel(destination) }}</span>
+            </div>
+            <a class="text-link" [routerLink]="destinationLink(destination)">
+              {{ copies.openCard }} <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+      }
+    </div>
+  } @else {
+    <atr-empty-state [title]="copies.emptyTitle" [description]="copies.emptyDescription"></atr-empty-state>
+  }
+</section>

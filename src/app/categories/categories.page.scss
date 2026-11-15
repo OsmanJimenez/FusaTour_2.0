@@ -1,0 +1,198 @@
+:host {
+  display: block;
+}
+
+.routes-page {
+  max-width: 87rem;
+  margin: 0 auto;
+  padding: clamp(2.75rem, 6vw, 5.5rem) clamp(1.25rem, 4vw, 3rem) clamp(4rem, 8vw, 7rem);
+}
+
+.routes-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(1.25rem, 4vw, 3.5rem);
+  align-items: end;
+  margin-bottom: clamp(1.5rem, 3.5vw, 2.5rem);
+  padding-top: 0.45rem;
+  border-top: 2px solid var(--ink);
+}
+
+.routes-intro h1 {
+  max-width: 16ch;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.55rem, 5.6vw, 4.6rem);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+.routes-intro > p {
+  max-width: 28rem;
+  margin: 0;
+  padding-bottom: 0.35rem;
+  color: var(--quiet-ink);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.routes-stage {
+  display: grid;
+  grid-template-columns: 1.55fr 1fr 1fr;
+  grid-template-rows: minmax(24rem, 62vh);
+  gap: 0.75rem;
+}
+
+.route-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 22rem;
+  color: #fffdf4;
+  display: flex;
+  align-items: flex-end;
+  background: var(--night);
+  border-radius: var(--radius-media);
+}
+
+.route-card-media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.route-card-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(9, 20, 27, 0.08) 0%,
+    rgba(9, 20, 27, 0.28) 42%,
+    rgba(9, 20, 27, 0.88) 100%
+  );
+  transition: background 0.28s ease;
+}
+
+.route-card:hover .route-card-media,
+.route-card:focus-visible .route-card-media {
+  transform: scale(1.07);
+}
+
+.route-card:hover .route-card-shade,
+.route-card:focus-visible .route-card-shade {
+  background: linear-gradient(
+    180deg,
+    rgba(9, 20, 27, 0.18) 0%,
+    rgba(23, 50, 43, 0.42) 40%,
+    rgba(23, 50, 43, 0.92) 100%
+  );
+}
+
+.route-card-copy {
+  width: 100%;
+  padding: clamp(1.35rem, 2.8vw, 2rem);
+  display: grid;
+  gap: 0.7rem;
+}
+
+.route-card-copy h2 {
+  color: #fffdf4;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.85rem, 3vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  max-width: 10ch;
+}
+
+.route-card-copy p {
+  margin: 0;
+  color: rgba(255, 253, 244, 0.82);
+  font-size: 0.9rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.route-card-copy strong {
+  color: var(--sun);
+  font-size: 1.15rem;
+  font-weight: 850;
+  margin-right: 0.3rem;
+}
+
+.route-card-cta {
+  margin-top: 0.55rem;
+  width: fit-content;
+  color: #fffdf4;
+  font-size: 0.8rem;
+  font-weight: 850;
+  line-height: 1.3;
+  border-bottom: 1px solid rgba(255, 253, 244, 0.55);
+  padding-bottom: 0.2rem;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.route-card:hover .route-card-cta,
+.route-card:focus-visible .route-card-cta {
+  color: var(--sun);
+  border-color: var(--sun);
+}
+
+.route-card:focus-visible {
+  outline: 3px solid var(--sun);
+  outline-offset: 3px;
+}
+
+@media (max-width: 980px) {
+  .routes-intro {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+    align-items: start;
+  }
+
+  .routes-intro > p {
+    padding-bottom: 0;
+  }
+
+  .routes-stage {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: none;
+    grid-auto-rows: minmax(18rem, 36vw);
+  }
+
+  .route-card-lead {
+    grid-column: 1 / -1;
+    min-height: 20rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .routes-page {
+    padding-top: 2.35rem;
+  }
+
+  .routes-intro h1 {
+    max-width: none;
+    font-size: clamp(2.2rem, 9.5vw, 2.85rem);
+  }
+
+  .routes-stage {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .route-card,
+  .route-card-lead {
+    grid-column: auto;
+    min-height: 17.5rem;
+  }
+}

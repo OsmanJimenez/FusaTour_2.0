@@ -1,0 +1,59 @@
+:host {
+  display: block;
+}
+
+.activity-index {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 3rem) 5rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.activity-card {
+  display: block;
+  overflow: hidden;
+}
+
+.activity-card a {
+  min-height: 5.15rem;
+  display: grid;
+  grid-template-columns: 3.25rem 1fr 1.25rem;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0.7rem 1rem;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  font-weight: 750;
+  transition:
+    padding 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.activity-card a:hover {
+  padding-left: 1.35rem;
+  color: var(--terracotta);
+  background: color-mix(in srgb, var(--terracotta) 8%, transparent);
+}
+
+.activity-index img {
+  width: 2.55rem;
+  height: 2.55rem;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.activity-index svg {
+  width: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 720px) {
+  .activity-card a {
+    min-height: 4.7rem;
+  }
+}

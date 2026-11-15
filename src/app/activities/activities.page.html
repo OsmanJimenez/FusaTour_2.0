@@ -1,0 +1,30 @@
+@if (catalogue(); as data) {
+  @if (currentTag(); as tag) {
+    <app-destination-catalogue
+      [destinations]="data.destinations"
+      [tagId]="tag.id"
+      [backLink]="['/actividades']"
+      [backLabel]="copies.backAll"
+      [mark]="tagMark(tag.name)"
+      [title]="tag.name"
+      titleLevel="h1"
+    />
+  } @else {
+    <section class="page-heading activity-heading">
+      <p class="route-mark">{{ copies.indexMark }}</p>
+      <h1>{{ copies.indexTitle }}</h1>
+      <p>{{ copies.indexDescription }}</p>
+    </section>
+    <section class="activity-index" [attr.aria-label]="copies.indexLabel">
+      @for (tag of data.tags; track tag.id) {
+        <atr-card appearance="outlined" class="activity-card">
+          <a [routerLink]="tagLink(tag)" atrLink appearance="standalone" underline="hover">
+            <img [src]="imageUrl(tag.image)" [alt]="tag.name" />
+            <span>{{ tag.name }}</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+          </a>
+        </atr-card>
+      }
+    </section>
+  }
+}

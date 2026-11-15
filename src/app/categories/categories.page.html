@@ -1,0 +1,47 @@
+@if (catalogue(); as data) {
+  @if (currentCategory(); as category) {
+    <app-destination-catalogue
+      [destinations]="data.destinations"
+      [categoryId]="category.id"
+      [backLink]="['/categorias']"
+      [backLabel]="copies.backAll"
+      [title]="category.name"
+      titleLevel="h1"
+    />
+  } @else {
+    <section class="routes-page">
+      <header class="routes-intro">
+        <h1>{{ copies.indexTitle }}</h1>
+        <p>{{ copies.indexDescription }}</p>
+      </header>
+
+      <div class="routes-stage" [attr.aria-label]="copies.gridLabel">
+        @for (category of data.categories; track category.id; let index = $index) {
+          <a
+            class="route-card"
+            [class.route-card-lead]="index === 0"
+            [routerLink]="categoryLink(category)"
+          >
+            <img
+              class="route-card-media"
+              [src]="imageUrl(category.image)"
+              [alt]="category.name"
+              loading="lazy"
+            />
+            <div class="route-card-shade" aria-hidden="true"></div>
+            <div class="route-card-copy">
+              <h2>{{ category.name }}</h2>
+              <p>
+                <strong>{{ destinationCount(category) }}</strong>
+                {{ copies.lugaresDiscover }}
+              </p>
+              <span class="route-card-cta">
+                {{ copies.enterRoute }} <span aria-hidden="true">→</span>
+              </span>
+            </div>
+          </a>
+        }
+      </div>
+    </section>
+  }
+}

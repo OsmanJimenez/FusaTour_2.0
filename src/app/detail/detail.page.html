@@ -1,0 +1,102 @@
+@if (destination(); as destination) {
+  <article class="detail-page">
+    <section class="detail-hero" [style.--detail-image]="'url(' + imageUrl(destination.coverImage) + ')'">
+      <a class="back-link" routerLink="/categorias">{{ copies.backRoutes }}</a>
+      <div class="detail-hero-info">
+        @if (categoryFor(destination.categoryId); as category) {
+          <a class="route-mark" [routerLink]="categoryLink(category)">{{ categoryName(destination.categoryId) }}</a>
+        }
+        <h1>{{ destination.title }}</h1>
+        <p>{{ destination.summary }}</p>
+      </div>
+      <div class="detail-actions">
+        <button
+          class="round-action"
+          type="button"
+          (click)="share(destination)"
+          [attr.aria-label]="copies.shareAria"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="18" cy="5" r="2" />
+            <circle cx="6" cy="12" r="2" />
+            <circle cx="18" cy="19" r="2" />
+            <path d="m8 11 8-5m-8 7 8 5" />
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <section class="detail-layout">
+      <aside class="detail-aside">
+        <div class="rating-box">
+          <span>{{ destination.rating | number: '1.1-1' }}</span>
+          <small>{{ copies.ratingCaption }}</small>
+          <strong>{{ copies.ratingOfFive }}</strong>
+        </div>
+        <div>
+          <span>{{ copies.publishedLabel }}</span>
+          <strong>{{ destination.publishedAt | date: 'd MMM y' }}</strong>
+        </div>
+        @if (destination.artist) {
+          <div>
+            <span>{{ copies.artistLabel }}</span>
+            <strong>{{ destination.artist }}</strong>
+          </div>
+        }
+        <div class="reader-controls">
+          <span>{{ copies.readingLabel }}</span>
+          <div class="reader-controls-group" role="group" [attr.aria-label]="copies.readingLabel">
+            <button type="button" (click)="adjustFont(-0.1)" [attr.aria-label]="copies.decreaseFont">A−</button>
+            <button type="button" (click)="resetFont()" [attr.aria-label]="copies.resetFont">A</button>
+            <button type="button" (click)="adjustFont(0.1)" [attr.aria-label]="copies.increaseFont">A+</button>
+          </div>
+          <small class="reader-scale">{{ fontScaleLabel() }}</small>
+        </div>
+      </aside>
+
+      <div class="detail-content">
+        <div class="tag-row" [attr.aria-label]="copies.tagsLabel">
+          @for (tag of destinationTags(destination); track tag.id) {
+            <a class="tag-pill" [routerLink]="tagLink(tag)">{{ tag.name }}</a>
+          }
+        </div>
+        <div class="prose" [innerHTML]="destination.bodyHtml"></div>
+        @if (destination.additionalContent) {
+          <blockquote>{{ destination.additionalContent }}</blockquote>
+        }
+      </div>
+    </section>
+
+    @if (destinationImages(destination).length) {
+      <section class="gallery-section" aria-labelledby="gallery-title">
+        <div class="section-heading">
+          <h2 id="gallery-title">{{ copies.galleryTitle }}</h2>
+          <p>{{ copies.galleryDescription }}</p>
+        </div>
+        <atr-image-gallery
+          [images]="galleryImages(destination)"
+          [label]="'Galería de ' + destination.title"
+          layout="mosaic"
+          [showThumbnails]="true"
+          [showCaptions]="false"
+          [previewable]="true"
+        ></atr-image-gallery>
+      </section>
+    }
+
+    @if (safeMap(destination.mapEmbedUrl); as mapUrl) {
+      <section class="map-section" aria-labelledby="map-title">
+        <div class="section-heading">
+          <h2 id="map-title">{{ copies.mapTitle }}</h2>
+          <p>{{ copies.mapDescription }}</p>
+        </div>
+        <iframe
+          [src]="mapUrl"
+          [title]="copies.mapIframeTitlePrefix + destination.title"
+          loading="lazy"
+          allowfullscreen
+        ></iframe>
+      </section>
+    }
+  </article>
+}

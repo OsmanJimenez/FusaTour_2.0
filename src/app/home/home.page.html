@@ -1,0 +1,84 @@
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <p class="route-mark">{{ copies.heroMark }}</p>
+    <h1 id="hero-title">{{ copies.heroTitle }}</h1>
+    <p class="hero-description">{{ copies.heroDescription }}</p>
+    <div class="hero-actions">
+      <a atrButton appearance="filled" class="button primary" routerLink="/categorias">
+        {{ copies.exploreCta }} <span aria-hidden="true">→</span>
+      </a>
+      <a atrButton appearance="outlined" class="button quiet" routerLink="/ranking">
+        {{ copies.rankingCta }}
+      </a>
+    </div>
+    <div class="category-rail" [attr.aria-label]="copies.categoryRailLabel">
+      @for (category of categories; track category.id) {
+        <a [routerLink]="categoryLink(category)">
+          <span>{{ category.name }}</span>
+          <small>{{ categoryDestinationCount(category.id) }} {{ copies.lugaresSuffix }}</small>
+        </a>
+      }
+    </div>
+  </div>
+  <div
+    class="hero-image"
+    role="img"
+    aria-label="Paisaje de Fusagasugá"
+    style="background-image: url('/images/Fondo.webp')"
+  ></div>
+</section>
+
+@if (currentImmersiveTour; as immersiveTour) {
+  <section class="immersive-section" aria-labelledby="immersive-title">
+    <div class="immersive-intro">
+      <h2 id="immersive-title">{{ copies.immersiveTitle }}</h2>
+      <p>{{ copies.immersiveDescription }}</p>
+      <div class="immersive-chooser" [attr.aria-label]="copies.immersiveChooserLabel">
+        @for (tour of immersiveTours; track tour.id) {
+          <button
+            atrButton
+            appearance="text"
+            type="button"
+            [class.active]="tour.id === immersiveTour.id"
+            (click)="selectImmersiveTour(tour)"
+          >
+            {{ tour.title }}
+          </button>
+        }
+      </div>
+    </div>
+    <atr-image-360
+      [src]="imageUrl(immersiveTour.fileName)"
+      [alt]="immersiveTour.alt"
+      [label]="immersiveTour.title + copies.immersiveLabelSuffix"
+    ></atr-image-360>
+  </section>
+}
+
+<section class="home-discoveries" aria-labelledby="discoveries-title">
+  <div class="discoveries-heading">
+    <h2 id="discoveries-title">{{ copies.discoveriesTitle }}</h2>
+    <a routerLink="/categorias">{{ copies.discoveriesAll }}</a>
+  </div>
+  <div class="discoveries-grid">
+    @for (destination of latestDestinations(); track destination.id; let index = $index) {
+      <a
+        class="discovery-card"
+        [class.featured]="index === 0"
+        [routerLink]="destinationLink(destination)"
+      >
+        <img [src]="imageUrl(destination.coverImage)" [alt]="destination.title" />
+        <span>{{ categoryName(destination.categoryId) }}</span>
+        <h3>{{ destination.title }}</h3>
+      </a>
+    }
+  </div>
+</section>
+
+<app-destination-catalogue
+  [mark]="copies.catalogueMark"
+  [title]="copies.catalogueTitle"
+  titleLevel="h2"
+  [destinations]="destinations"
+  [limit]="6"
+/>
