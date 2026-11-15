@@ -4,6 +4,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Subscription, combineLatest, map } from 'rxjs';
 import { AtralumeImageGallery } from '@osmanjimenez/atralume/image-gallery';
+import { AtralumeIcon } from '@osmanjimenez/atralume/icon';
+import { AtralumeIconButton } from '@osmanjimenez/atralume/icon-button';
 import { AtralumeSnackbar } from '@osmanjimenez/atralume/snackbar';
 import { Catalogue, Category, Destination, Tag } from '../core/models/catalogue';
 import { PreferencesService } from '../core/services/preferences.service';
@@ -21,6 +23,8 @@ import { detailCopies } from './detail.copies';
     DecimalPipe,
     RouterLink,
     AtralumeImageGallery,
+    AtralumeIcon,
+    AtralumeIconButton,
   ],
   templateUrl: './detail.page.html',
   styleUrl: './detail.page.scss',

@@ -47,11 +47,20 @@
         }
       </div>
     </div>
-    <atr-image-360
-      [src]="imageUrl(immersiveTour.fileName)"
-      [alt]="immersiveTour.alt"
-      [label]="immersiveTour.title + copies.immersiveLabelSuffix"
-    ></atr-image-360>
+    @if (browser) {
+      <atr-image-360
+        [src]="imageUrl(immersiveTour.fileName)"
+        [alt]="immersiveTour.alt"
+        [label]="immersiveTour.title + copies.immersiveLabelSuffix"
+      ></atr-image-360>
+    } @else {
+      <div
+        class="immersive-preview"
+        role="img"
+        [attr.aria-label]="immersiveTour.alt"
+        [style.background-image]="'url(' + imageUrl(immersiveTour.fileName) + ')'"
+      ></div>
+    }
   </section>
 }
 

@@ -21,7 +21,7 @@
           <a [routerLink]="tagLink(tag)" atrLink appearance="standalone" underline="hover">
             <img [src]="imageUrl(tag.image)" [alt]="tag.name" />
             <span>{{ tag.name }}</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+            <atr-icon engine="tui" name="@tui.chevron-right" />
           </a>
         </atr-card>
       }

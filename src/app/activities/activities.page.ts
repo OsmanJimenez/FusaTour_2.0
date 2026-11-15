@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 import { AtralumeCard } from '@osmanjimenez/atralume/card';
 import { AtralumeLink } from '@osmanjimenez/atralume/link';
+import { AtralumeIcon } from '@osmanjimenez/atralume/icon';
 import { Catalogue } from '../core/models/catalogue';
 import { TourDataService } from '../core/services/tour-data.service';
 import { imageUrl } from '../core/utils/image-url';
@@ -14,7 +15,7 @@ import { activitiesCopies } from './activities.copies';
 
 @Component({
   selector: 'app-activities-page',
-  imports: [RouterLink, AtralumeCard, AtralumeLink, DestinationCatalogueComponent],
+  imports: [RouterLink, AtralumeCard, AtralumeIcon, AtralumeLink, DestinationCatalogueComponent],
   templateUrl: './activities.page.html',
   styleUrl: './activities.page.scss',
 })

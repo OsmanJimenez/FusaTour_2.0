@@ -19,9 +19,9 @@
           [title]="theme() === 'dark' ? copies.themeLightTitle : copies.themeDarkTitle"
         >
           @if (theme() === 'dark') {
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36-6.36-1.42 1.42M7.05 16.95l-1.42 1.42m12.73 0-1.42-1.42M7.05 7.05 5.63 5.63M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" /></svg>
+            <atr-icon engine="tui" name="@tui.sun" />
           } @else {
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.64 15.7A8.5 8.5 0 0 1 8.3 3.36 8.5 8.5 0 1 0 20.64 15.7Z" /></svg>
+            <atr-icon engine="tui" name="@tui.moon" />
           }
         </button>
       </div>
@@ -34,33 +34,22 @@
     <nav class="bottom-nav" [attr.aria-label]="copies.bottomNavLabel">
       <a routerLink="/" [class.active]="view() === 'home'" [attr.aria-label]="copies.nav.home">
         <span class="nav-orb" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z" />
-          </svg>
+          <atr-icon engine="tui" name="@tui.house" />
         </span>
       </a>
       <a routerLink="/categorias" [class.active]="view() === 'categories'" [attr.aria-label]="copies.nav.categories">
         <span class="nav-orb" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="M8 4h9a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8" />
-            <path d="M6 3v18" />
-            <path d="M11 9h5M11 13h3.5" />
-          </svg>
+          <atr-icon engine="tui" name="@tui.map" />
         </span>
       </a>
       <a routerLink="/ranking" [class.active]="view() === 'ranking'" [attr.aria-label]="copies.nav.ranking">
         <span class="nav-orb" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <path d="m12 3.4 2.35 4.76 5.25.76-3.8 3.7.9 5.24L12 15.4l-4.7 2.46.9-5.24-3.8-3.7 5.25-.76L12 3.4Z" />
-          </svg>
+          <atr-icon engine="tui" name="@tui.star" />
         </span>
       </a>
       <a routerLink="/actividades" [class.active]="view() === 'activities'" [attr.aria-label]="copies.nav.activities">
         <span class="nav-orb" aria-hidden="true">
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="8.25" />
-            <path d="M12 7.5V12l3.4 2.1" />
-          </svg>
+          <atr-icon engine="tui" name="@tui.clock" />
         </span>
       </a>
     </nav>
@@ -68,7 +57,7 @@
     <ng-template #storyDialog>
       @if (activeStory(); as storyKey) {
         <article atrDialogContent class="story-dialog-content">
-          <button atrIconButton atrDialogClose appearance="outlined" type="button" [attr.aria-label]="copies.closeStory">×</button>
+          <button atrIconButton atrDialogClose appearance="outlined" type="button" [attr.aria-label]="copies.closeStory"><atr-icon engine="tui" name="@tui.x" /></button>
           <img [src]="imageUrl(story(storyKey).image)" [alt]="story(storyKey).title" />
           <div>
             <p class="route-mark">{{ copies.storiesMark }}</p>

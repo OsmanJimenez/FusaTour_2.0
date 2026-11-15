@@ -1,4 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AtralumeButton } from '@osmanjimenez/atralume/button';
 import { AtralumeImage360 } from '@osmanjimenez/atralume/image-360';
@@ -22,6 +23,7 @@ import { homeCopies } from './home.copies';
 })
 export class HomePage {
   private readonly data = inject(TourDataService);
+  readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
 
   readonly copies = homeCopies;
   readonly catalogue = signal<Catalogue | null>(null);

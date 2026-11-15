@@ -102,7 +102,7 @@
   color: var(--paper);
 }
 
-.icon-button svg {
+.icon-button atr-icon {
   width: 1.15rem;
   fill: none;
   stroke: currentColor;
@@ -157,7 +157,7 @@
     box-shadow 0.3s ease;
 }
 
-.nav-orb svg {
+.nav-orb atr-icon {
   width: 1.45rem;
   height: 1.45rem;
   fill: none;
@@ -181,7 +181,7 @@
   box-shadow: 0 2px 10px color-mix(in srgb, var(--moss) 32%, transparent);
 }
 
-.bottom-nav a.active .nav-orb svg {
+.bottom-nav a.active .nav-orb atr-icon {
   stroke-width: 2.05;
   transform: scale(1.06);
 }

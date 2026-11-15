@@ -11,17 +11,14 @@
       </div>
       <div class="detail-actions">
         <button
+          atrIconButton
+          appearance="outlined"
           class="round-action"
           type="button"
           (click)="share(destination)"
           [attr.aria-label]="copies.shareAria"
         >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="18" cy="5" r="2" />
-            <circle cx="6" cy="12" r="2" />
-            <circle cx="18" cy="19" r="2" />
-            <path d="m8 11 8-5m-8 7 8 5" />
-          </svg>
+          <atr-icon engine="tui" name="@tui.share-2" />
         </button>
       </div>
     </section>

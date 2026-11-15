@@ -4,6 +4,7 @@ import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router
 import { filter } from 'rxjs';
 import { AtralumeDialog, AtralumeDialogClose, AtralumeDialogContent, AtralumeDialogTitle } from '@osmanjimenez/atralume/dialog';
 import { AtralumeIconButton } from '@osmanjimenez/atralume/icon-button';
+import { AtralumeIcon } from '@osmanjimenez/atralume/icon';
 import { AtralumeNavigationBar, AtralumeNavigationItem } from '@osmanjimenez/atralume/navigation-bar';
 import { AtralumeSnackbar } from '@osmanjimenez/atralume/snackbar';
 import { Catalogue } from '../core/models/catalogue';
@@ -26,6 +27,7 @@ export type StoryKey = 'data' | 'events' | 'symbols' | 'food' | 'weather';
     AtralumeDialogContent,
     AtralumeDialogTitle,
     AtralumeIconButton,
+    AtralumeIcon,
     AtralumeNavigationBar,
     AtralumeNavigationItem,
   ],

@@ -108,6 +108,14 @@
   border-radius: var(--radius-media);
 }
 
+.immersive-preview {
+  min-height: clamp(20rem, 42vw, 33rem);
+  border-radius: var(--radius-media);
+  background-color: var(--paper-deep);
+  background-position: center;
+  background-size: cover;
+}
+
 .immersive-intro {
   padding-bottom: 0.5rem;
 }
