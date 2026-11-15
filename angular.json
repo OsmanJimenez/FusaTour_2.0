@@ -32,7 +32,7 @@
               },
               {
                 "glob": "**/*.svg",
-                "input": "node_modules/@taiga-ui/icons/src",
+                "input": "node_modules/@osmanjimenez/atralume/assets/taiga-ui/icons",
                 "output": "assets/taiga-ui/icons"
               }
             ],
