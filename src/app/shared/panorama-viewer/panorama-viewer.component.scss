@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+.panorama-viewer {
+  aspect-ratio: 16 / 10;
+  min-height: clamp(20rem, 42vw, 33rem);
+  position: relative;
+  background: var(--paper-deep);
+}
+
+.panorama-viewer__canvas {
+  position: absolute;
+  inset: 0;
+}
+
+@media (max-width: 780px) {
+  .panorama-viewer {
+    aspect-ratio: 4 / 5;
+    min-height: 24rem;
+  }
+}

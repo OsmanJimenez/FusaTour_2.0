@@ -2,7 +2,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { Component, inject, PLATFORM_ID, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AtralumeButton } from '@osmanjimenez/atralume/button';
-import { AtralumeImage360 } from '@osmanjimenez/atralume/image-360';
 import { Catalogue, Category, Destination, ImmersiveTour } from '../core/models/catalogue';
 import { TourDataService } from '../core/services/tour-data.service';
 import {
@@ -13,11 +12,12 @@ import {
 import { imageUrl } from '../core/utils/image-url';
 import { categoryLink, destinationLink } from '../core/utils/links';
 import { DestinationCatalogueComponent } from '../shared/destination-catalogue/destination-catalogue.component';
+import { PanoramaViewerComponent } from '../shared/panorama-viewer/panorama-viewer.component';
 import { homeCopies } from './home.copies';
 
 @Component({
   selector: 'app-home-page',
-  imports: [RouterLink, AtralumeButton, AtralumeImage360, DestinationCatalogueComponent],
+  imports: [RouterLink, AtralumeButton, DestinationCatalogueComponent, PanoramaViewerComponent],
   templateUrl: './home.page.html',
   styleUrl: './home.page.scss',
 })
@@ -50,7 +50,10 @@ export class HomePage {
   }
 
   get currentImmersiveTour(): ImmersiveTour | undefined {
-    return this.immersiveTours.find((tour) => tour.id === this.selectedImmersiveTour()) ?? this.immersiveTours[0];
+    return (
+      this.immersiveTours.find((tour) => tour.id === this.selectedImmersiveTour()) ??
+      this.immersiveTours[0]
+    );
   }
 
   categoryDestinationCount(categoryId: number): number {

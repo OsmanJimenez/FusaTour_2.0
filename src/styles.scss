@@ -1,5 +1,6 @@
-@use "./styles/fusatour-tokens";
-@import "@osmanjimenez/atralume/styles/theme.css";
+@use './styles/fusatour-tokens';
+@import '@osmanjimenez/atralume/styles/theme.css';
+@import '@photo-sphere-viewer/core/index.css';
 
 :root {
   color-scheme: light;

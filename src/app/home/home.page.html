@@ -48,11 +48,10 @@
       </div>
     </div>
     @if (browser) {
-      <atr-image-360
+      <app-panorama-viewer
         [src]="imageUrl(immersiveTour.fileName)"
-        [alt]="immersiveTour.alt"
-        [label]="immersiveTour.title + copies.immersiveLabelSuffix"
-      ></atr-image-360>
+        [title]="immersiveTour.title + copies.immersiveLabelSuffix"
+      ></app-panorama-viewer>
     } @else {
       <div
         class="immersive-preview"
